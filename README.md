@@ -6,15 +6,15 @@ After tests fail and artifacts are collected, run this:
 curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" -o run-ai-analysis.sh
 
 # Run with your own API key
-export OPENAI_API_KEY="sk-their-key"
-export ARTIFACT_DIR="/path/to/e2e/non-admin"
+export OPENAI_API_KEY="key-here-pease"
+export ARTIFACT_DIR="/path/to/suite"
 bash run-ai-analysis.sh
 ```
 OR 
 
 ```bash
-export OPENAI_API_KEY="sk-their-key"
-export ARTIFACT_DIR="/path/to/e2e/non-admin"
+export OPENAI_API_KEY="sk-here-please"
+export ARTIFACT_DIR="/path/to/suite"
 curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" | bash
 ```
 
