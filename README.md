@@ -54,6 +54,6 @@ curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/mai
 #      ├── failed-specs.json            # info about only failed spec from report.json (provided as context to ai)
 #      └── codex-prompt.txt             # Prompt given to AI for analysis (provided as context to ai)
 
-# 3. Open the md file to analysis
+# 3. Open the md file to see results
 cat "e2e/non-admin/claude-failure-analysis.md"
 ```
