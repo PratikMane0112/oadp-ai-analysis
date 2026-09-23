@@ -10,7 +10,7 @@ failure analysis report in Markdown.
 
 # One-time: download the runner script
 curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" -o run-ai-analysis.sh
-export OPENAI_API_KEY="key-here-pease"
+export OPENAI_API_KEY="key-here-please"
 export ARTIFACT_DIR="$(pwd)/path/to/suite" # add path to suite of which test case is part
 bash run-ai-analysis.sh
 
@@ -49,10 +49,10 @@ curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/mai
 
 # When AI analysis completes, below files are created :
 # e2e/non-admin/
-#      ├── claude-failure-analysis.md   # AI analysis report
-#      └── ai-analysis-logs.txt         # Codex verbose logs
-#      ├── failed-specs.json            # info about only failed spec from report.json
-#      └── codex-prompt.txt             # Prompt given to AI for analysis
+#      ├── claude-failure-analysis.md   # AI analysis report (to see final results)
+#      └── ai-analysis-logs.txt         # Codex verbose logs (to know how ai done analysis behind the scenes)
+#      ├── failed-specs.json            # info about only failed spec from report.json (provided as context to ai)
+#      └── codex-prompt.txt             # Prompt given to AI for analysis (provided as context to ai)
 
 # 3. Open the md file to analysis
 cat "e2e/non-admin/claude-failure-analysis.md"
