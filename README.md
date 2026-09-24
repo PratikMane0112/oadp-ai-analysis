@@ -8,19 +8,18 @@ Ginkgo JSON reports, must-gather logs) and produces a detailed
 failure analysis report in Markdown.
 ######################################################################
 
-# One-time: download the runner script
-curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" -o run-ai-analysis.sh
-export OPENAI_API_KEY="key-here-please"
-export ARTIFACT_DIR="$(pwd)/path/to/suite" # add path to suite of which test case is part
-export TEST_SOURCE_DIR="$(pwd)"            # optional: path to the oadp-e2e-qe repo for automationissue
-bash run-ai-analysis.sh
+#########################
+# Prerequisites
+# codex cli installed
+#########################
+1. Clone the repo
+git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 
-OR 
-
+2. Run AI analysis
 export OPENAI_API_KEY="key-here-please"
 export ARTIFACT_DIR="$(pwd)/path/to/suite"  # add path to suite of which test case is part
 export TEST_SOURCE_DIR="$(pwd)"            # optional: path to the oadp-e2e-qe repo for automationissue
-curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" | bash
+bash run-ai-analysis.sh
 ```
 
 
@@ -43,12 +42,12 @@ TESTS_FOLDER=e2e/non-admin EXTRA_GINKGO_PARAMS="--focus=OADP-637" make run
 # └── logs/                 # Per-test logs by must gather
 #     └── <TestName>/       # worklload manifests & pod logs
 
-# 2. run AI analysis
+# 2. run AI analysis after cloning this repo
 
 export OPENAI_API_KEY=""
 export ARTIFACT_DIR="$(pwd)/e2e/non-admin"
 export TEST_SOURCE_DIR="$(pwd)"           
-curl -sfL "https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main/run-ai-analysis.sh" | bash
+bash run-ai-analysis.sh
 
 # When AI analysis completes, below files are created :
 # e2e/non-admin/
