@@ -14,10 +14,10 @@ codex cli installed
 #########################
 
 ######################################################################################################
-1. Clone the repo
+# 1. Clone the repo
 git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 
-2. Run AI analysis
+# 2. Run AI analysis
 export OPENAI_API_KEY="key-here-please"
 export ARTIFACT_DIR="$(pwd)/path/to/suite"  # add path to suite of which test case is part
 export TEST_SOURCE_DIR="$(pwd)"            # optional: path to the oadp-e2e-qe repo for automationissue
