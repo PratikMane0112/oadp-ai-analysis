@@ -19,8 +19,8 @@ git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 
 # 2. Run AI analysis
 export OPENAI_API_KEY="key-here-please"
-export ARTIFACT_DIR="$(pwd)/path/to/suite"  # add path to suite of which test case is part
-export TEST_SOURCE_DIR="$(pwd)"            # optional: path to the oadp-e2e-qe repo for automationissue
+export ARTIFACT_DIR="/path/to/suite"                    # absolute path to suite of which test case is part
+export TEST_SOURCE_DIR="path/to/oadp-e2e-qe"            # optional: absolute path to the oadp-e2e-qe repo for automationissue
 bash run-ai-analysis.sh
 ######################################################################################################
 ```
@@ -48,8 +48,8 @@ TESTS_FOLDER=e2e/non-admin EXTRA_GINKGO_PARAMS="--focus=OADP-637" make run
 # 2. run AI analysis after cloning this repo
 
 export OPENAI_API_KEY=""
-export ARTIFACT_DIR="$(pwd)/e2e/non-admin"
-export TEST_SOURCE_DIR="$(pwd)"           
+export ARTIFACT_DIR="path/to/oadp-e2e-qe/e2e/non-admin"
+export TEST_SOURCE_DIR="path/to/oadp-e2e-qe"           
 bash run-ai-analysis.sh
 
 # When AI analysis completes, below files are created :
