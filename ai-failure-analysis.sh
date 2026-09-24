@@ -210,16 +210,21 @@ else
 	scripts::logger::WARN "Could not fetch flakes.go (non-critical, analysis will continue without flake patterns)"
 fi
 
-# Detect test source code directory (oadp-e2e-qe, cloned by run.sh)
-if [ -d "${WORKSPACE}/oadp-e2e-qe" ]; then
-	export TEST_SOURCE_DIR="${WORKSPACE}/oadp-e2e-qe"
-	scripts::logger::INFO "Test source code available: ${TEST_SOURCE_DIR}"
-elif [ -d "${ARTIFACT_DIR}/../../" ] && [ -f "${ARTIFACT_DIR}/../../e2e_suite_test.go" ]; then
-	export TEST_SOURCE_DIR="$(cd "${ARTIFACT_DIR}/../.." && pwd)"
-	scripts::logger::INFO "Test source code available: ${TEST_SOURCE_DIR}"
+# Detect test source code directory (if not already set by user)
+if [ -z "${TEST_SOURCE_DIR}" ]; then
+    if [ -d "${WORKSPACE}/oadp-e2e-qe" ]; then
+        export TEST_SOURCE_DIR="${WORKSPACE}/oadp-e2e-qe"
+    elif [ -d "${ARTIFACT_DIR}/../../" ] && [ -f "${ARTIFACT_DIR}/../../e2e_suite_test.go" ]; then
+        export TEST_SOURCE_DIR="$(cd "${ARTIFACT_DIR}/../.." && pwd)"
+    fi
+fi
+
+# Log result (not fatal if missing)
+if [ -n "${TEST_SOURCE_DIR}" ] && [ -d "${TEST_SOURCE_DIR}" ]; then
+    scripts::logger::INFO "Test source code available: ${TEST_SOURCE_DIR}"
 else
-	scripts::logger::WARN "Test source code (oadp-e2e-qe) not found — analysis will be limited for automation issue"
-    exit 1
+    scripts::logger::WARN "Test source code (oadp-e2e-qe) not found — analysis will be limited"
+    unset TEST_SOURCE_DIR
 fi
 
 # --- Run Analysis ---
