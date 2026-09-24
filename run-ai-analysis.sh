@@ -20,7 +20,7 @@ set -e
 # ── Configuration ──────────────────────────────────────
 
 GITHUB_REPO="https://raw.githubusercontent.com/PratikMane0112/oadp-ai-analysis/main"
-SCRIPT_NAME="analyze-fails-ai.sh"
+SCRIPT_NAME="ai-failure-analysis.sh"
 
 # ── Validate required variables ────────────────────────
 if [ -z "$OPENAI_API_KEY" ]; then
