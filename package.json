@@ -1,0 +1,24 @@
+{
+  "name": "oadp-ai-analysis",
+  "version": "1.0.0",
+  "description": "Triggering AI analysis, After tests fail and artifacts are collected:",
+  "main": "index.js",
+  "scripts": {
+    "analyze": "bash ai-failure-analysis.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PratikMane0112/oadp-ai-analysis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PratikMane0112/oadp-ai-analysis/issues"
+  },
+  "homepage": "https://github.com/PratikMane0112/oadp-ai-analysis#readme",
+  "dependencies": {
+    "@openai/codex": "^0.157.1"
+  }
+}

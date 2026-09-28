@@ -67,14 +67,18 @@ if [ -z "$OPENAI_API_KEY" ]; then
 fi
 
 # Check for Codex CLI availability
-if ! command -v codex &>/dev/null; then
-    echo "⚠ Codex CLI not found in PATH"
-    echo "Skipping AI analysis (install with: npm install -g @openai/codex)"
+if [ -f "${TOP_DIR}/node_modules/.bin/codex" ]; then
+    CODEX_BIN="${TOP_DIR}/node_modules/.bin/codex"
+elif command -v npx &>/dev/null; then
+    CODEX_BIN="npx codex"
+else
+    echo "⚠ Local Codex CLI not found in node_modules"
+    echo "Skipping AI analysis (install with: npm install)"
     exit $EXIT_CODE
 fi
 
 # Register API key with Codex CLI (needed for WebSocket auth)
-printenv OPENAI_API_KEY | codex login --with-api-key 2>/dev/null || true
+printenv OPENAI_API_KEY | ${CODEX_BIN} login --with-api-key 2>/dev/null || true
 
 # --- Functions ---
 
@@ -137,7 +141,7 @@ extract_log_errors() {
     echo "  Preprocessing large log: $(basename "$log_file") (${file_size} bytes)"
 
     local subagent_output
-    subagent_output=$(timeout 60 codex exec \
+    subagent_output=$(timeout 60 ${CODEX_BIN} exec \
         --ephemeral \
         --sandbox "${CODEX_SANDBOX}" \
         -m "${CODEX_MODEL}" \
@@ -610,7 +614,7 @@ PROMPT_EOF
 
 
     echo "AI analysis in progress, please wait..."
-    timeout 600 codex exec \
+    timeout 600 ${CODEX_BIN} exec \
         --ephemeral \
         --sandbox "${CODEX_SANDBOX}" \
         -m "${CODEX_MODEL}" \

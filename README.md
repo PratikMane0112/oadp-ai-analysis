@@ -8,20 +8,20 @@ Ginkgo JSON reports, must-gather logs) and produces a detailed
 failure analysis report in Markdown.
 ######################################################################
 
-#########################
-Prerequisites:
-codex cli installed
-#########################
-
 ######################################################################################################
 # 1. Clone the repo
 git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 
-# 2. Run AI analysis
-export OPENAI_API_KEY="key-here-please"
-export ARTIFACT_DIR="/path/to/suite"                    # absolute path to suite of which test case is part
-export TEST_SOURCE_DIR="path/to/oadp-e2e-qe"            # optional: absolute path to the oadp-e2e-qe repo for automationissue
-bash run-ai-analysis.sh
+# 2. Install codex cli
+npm install
+
+# 3. Export vars (top-dir)
+export OPENAI_API_KEY=""
+export WORKSPACE="$(pwd)"                                # absolute path to the top/root dir.
+export ARTIFACT_DIR="$(pwd)/oadp-e2e-qe/e2e"             # absolute path to the oadp-e2e-qe repo suite. 
+
+# 3. Run AI analysis (oadp-ai-analysis)
+npm run analyze  
 ######################################################################################################
 ```
 
@@ -45,7 +45,7 @@ TESTS_FOLDER=e2e EXTRA_GINKGO_PARAMS="--focus=OADP-79" make run
 #   ├── report.json              # Ginkgo JSON report (created by gingko framework)
 #   ├── junit_report.xml         # JUnit test results (created by gingko framework)
 #   └── logs/                    # Per-test logs by must gather
-#      └── <tc:OADP-752>/       # worklload manifests & pod logs
+#      └── <tc:OADP-752>/        # worklload manifests & pod logs
 
 # 2. run AI analysis 
 
@@ -66,11 +66,19 @@ top-dir $ git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 #     ├── junit_report.xml         
 #     └── logs/                    
 
-# 2.2 run the script to trigger ai analysis in top-dir
+# 2.2 install codex cli through npm
+npm install
+
+# 2.3 export the vars in top dir
 export OPENAI_API_KEY=""
 export WORKSPACE="$(pwd)"
-export ARTIFACT_DIR="$(pwd)/oadp-e2e-qe/e2e"         
-bash oadp-ai-analysis/ai-failure-analysis.sh 1
+export ARTIFACT_DIR="$(pwd)/oadp-e2e-qe/e2e" 
+
+# 2.4 run the script to trigger ai analysis in oadp-ai-analysis dir
+cd oadp-ai-analysis
+npm run analyze  
+# npm run analyze -- 1 (test failure)
+# npm run analyze -- 0 (tests passed, skips analysis)
 
 # When AI analysis completes, below files are created :
 # e2e/
@@ -81,7 +89,7 @@ bash oadp-ai-analysis/ai-failure-analysis.sh 1
 #      ├── failed-specs.json            # info about only failed spec from report.json (provided as context to ai)
 #      └── ai-prompt.txt                # Prompt given to AI for analysis (provided as context to ai)
 #
-#  ├── ai-analysis-logs.txt             # AI verbose logs (to know how ai done analysis behind the scenes)#
+#  ├── ai-analysis-logs.txt             # AI verbose logs (to know how ai done analysis behind the scenes)
 #  ├── ai-failure-analysis.md           # AI analysis report (to see final results)
 
 # 3. Open the md file to see results
