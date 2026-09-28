@@ -67,9 +67,11 @@ top-dir $ git clone https://github.com/PratikMane0112/oadp-ai-analysis.git
 #     └── logs/                    
 
 # 2.2 install codex cli through npm
+cd oadp-ai-analysis
 npm install
 
 # 2.3 export the vars in top dir
+cd ..
 export OPENAI_API_KEY=""
 export WORKSPACE="$(pwd)"
 export ARTIFACT_DIR="$(pwd)/oadp-e2e-qe/e2e" 
