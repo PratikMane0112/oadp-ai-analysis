@@ -95,5 +95,6 @@ npm run analyze
 #  ├── ai-failure-analysis.md           # AI analysis report (to see final results)
 
 # 3. Open the md file to see results
-cat "e2e/ai-failure-analysis.md"
+cd ..
+cat "oadp-e2e-qe/e2e/ai-failure-analysis.md"
 ```
