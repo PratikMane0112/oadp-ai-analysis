@@ -67,18 +67,14 @@ if [ -z "$OPENAI_API_KEY" ]; then
 fi
 
 # Check for Codex CLI availability
-if [ -f "${TOP_DIR}/node_modules/.bin/codex" ]; then
-    CODEX_BIN="${TOP_DIR}/node_modules/.bin/codex"
-elif command -v npx &>/dev/null; then
-    CODEX_BIN="npx codex"
-else
-    echo "⚠ Local Codex CLI not found in node_modules"
-    echo "Skipping AI analysis (install with: npm install)"
+if ! command -v codex &>/dev/null; then
+    echo "⚠ Codex CLI not found in PATH"
+    echo "Skipping AI analysis (install with: npm install -g @openai/codex)"
     exit $EXIT_CODE
 fi
 
 # Register API key with Codex CLI (needed for WebSocket auth)
-printenv OPENAI_API_KEY | ${CODEX_BIN} login --with-api-key 2>/dev/null || true
+printenv OPENAI_API_KEY | codex login --with-api-key 2>/dev/null || true
 
 # --- Functions ---
 
@@ -141,7 +137,7 @@ extract_log_errors() {
     echo "  Preprocessing large log: $(basename "$log_file") (${file_size} bytes)"
 
     local subagent_output
-    subagent_output=$(timeout 60 ${CODEX_BIN} exec \
+    subagent_output=$(timeout 60 codex exec \
         --ephemeral \
         --sandbox "${CODEX_SANDBOX}" \
         -m "${CODEX_MODEL}" \
@@ -172,7 +168,7 @@ Do NOT include debug/info level messages unless they are from the same package a
    
     if [ $? -eq 0 ] && [ -n "$subagent_output" ]; then
         echo "=== Log: $(basename "$log_file") (subagent extracted) ===" >>"$output_file"
-        echo "$subagent_output" \vert{} head -n 200 >>"$output_file"
+        echo "$subagent_output" | head -n 200 >>"$output_file"
     else
         echo "=== Log: $(basename "$log_file") (fallback grep) ===" >>"$output_file"
         grep -i -E '(error|fatal|panic|failed|timeout|exception)' "$redacted_log" 2>/dev/null | tail -n 100 >>"$output_file"
@@ -237,6 +233,7 @@ elif [ -d "${ARTIFACT_DIR}/../../" ] && [ -f "${ARTIFACT_DIR}/../../e2e_suite_te
 	scripts::logger::INFO "Test source code available: ${TEST_SOURCE_DIR}"
 else
 	scripts::logger::WARN "Test source code (oadp-e2e-qe) not found — analysis will be limited for automation issue"
+    exit $EXIT_CODE
 fi
 
 # --- Run Analysis ---
@@ -610,11 +607,11 @@ PROMPT_EOF
 
     # Create temp file for Codex output
     TEMP_OUTPUT=$(mktemp)
-    trap "rm -f $TEMP_OUTPUT" EXIT
+        trap 'rm -f "$TEMP_OUTPUT"; rm -rf "${ARTIFACT_DIR}/.redacted" "${ARTIFACT_DIR}/.ai-redacted"' EXIT
 
 
     echo "AI analysis in progress, please wait..."
-    timeout 600 ${CODEX_BIN} exec \
+    timeout 600 codex exec \
         --ephemeral \
         --sandbox "${CODEX_SANDBOX}" \
         -m "${CODEX_MODEL}" \
@@ -656,7 +653,7 @@ IMPORTANT: Do NOT include any API keys, tokens, passwords, or credentials in you
     else
         echo "✗ AI analysis failed (exit code: $CODEX_EXIT)"
         echo "Check ${ARTIFACT_DIR}/ai-failure-analysis.md for error details"
-        exit 1
+        exit "$EXIT_CODE"
     fi
 
     rm -f "$TEMP_OUTPUT"

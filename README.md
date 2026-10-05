@@ -83,6 +83,12 @@ npm run analyze
 # npm run analyze -- 0 (tests passed, skips analysis)
 
 # When AI analysis completes, below files are created :
+#
+#  ├── ai-analysis-logs.txt             # AI verbose logs (to know how ai done analysis behind the scenes)
+#  ├── ai-failure-analysis.md           # AI analysis report (to see final results)
+#
+#
+# (These files are temporarily created as a context for AI & later removed)
 # e2e/
 #  ├──.ai-redacted (redacted copies of files)
 #      ├── preprocessed-logs.json       # reduced logs version of large logs (provided as context to ai)
@@ -90,9 +96,6 @@ npm run analyze
 #      ├── oadp-ref/flake.go            # known flakes from (oadp-operator/tests/e2e/lib/flakes.go provided as context to ai)
 #      ├── failed-specs.json            # info about only failed spec from report.json (provided as context to ai)
 #      └── ai-prompt.txt                # Prompt given to AI for analysis (provided as context to ai)
-#
-#  ├── ai-analysis-logs.txt             # AI verbose logs (to know how ai done analysis behind the scenes)
-#  ├── ai-failure-analysis.md           # AI analysis report (to see final results)
 
 # 3. Open the md file to see results
 cd ..
