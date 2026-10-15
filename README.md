@@ -29,7 +29,7 @@ npm run analyze
 ```bash
 - For example :
 
-# 1. oadp-e2e-qe repo is cloned & a test case is failed & all resources are collected.
+# 1. oadp-e2e-qe repo is cloned & a test case is failed & all artifacts are collected
 
 # in oadp-e2e-qe dir
 export KUBECONFIG=/path/to/kubeconfig
